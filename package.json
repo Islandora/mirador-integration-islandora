@@ -4,23 +4,24 @@
   "description": "Allow Drupal to display the Mirador image viewer",
   "private": true,
   "scripts": {
-    "parcel": "parcel parcel/index.html",
     "webpack": "webpack --config webpack/webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@blueprintjs/core": "^5.19.0",
+    "@blueprintjs/icons": "^5.22.0",
     "css-loader": "^3.6.0",
-    "mirador": "^3.3.0",
-    "mirador-image-tools": "^0.11.0",
-    "parcel-bundler": "^1.12.4",
-    "mirador": "^3.0.0",
+    "mirador": "^3.4.3",
+    "mirador-annotations": "^0.3.0",
+    "mirador-dl-plugin": "^0.12.0",
     "mirador-image-tools": "^0.11.0",
     "mirador-textoverlay": "^0.3.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "style-loader": "^1.2.1",
+    "url": "^0.11.4",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   }
