@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirador Integration Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #mirador {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="mirador"></div>
+    <script src="../webpack/dist/main.js"></script>
+    <script>
+        // Track if Mirador loaded successfully
+        window.miradorLoadedSuccessfully = false;
+        window.consoleErrors = [];
+
+        // Capture console errors
+        const originalError = console.error;
+        console.error = function(...args) {
+            window.consoleErrors.push(args.map(arg => String(arg)).join(' '));
+            originalError.apply(console, args);
+        };
+
+        try {
+            // Initialize Mirador with a test manifest
+            const config = {
+                id: 'mirador',
+                windows: [{
+                    manifestId: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
+                }],
+                plugins: window.miradorPlugins || []
+            };
+
+            if (typeof window.Mirador !== 'undefined') {
+                const viewer = window.Mirador.viewer(config);
+                window.miradorLoadedSuccessfully = true;
+                window.miradorInstance = viewer;
+            } else {
+                console.error('Mirador is not defined on window object');
+            }
+        } catch (error) {
+            console.error('Failed to initialize Mirador:', error);
+            window.miradorLoadedSuccessfully = false;
+        }
+    </script>
+</body>
+</html>
