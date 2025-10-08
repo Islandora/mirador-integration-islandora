@@ -45,6 +45,43 @@ async function runTest() {
             pageErrors.push(error.message);
         });
 
+        // Intercept manifest fetch and return it directly
+        await page.route('**/test-manifest.json', route => {
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    "@context": "http://iiif.io/api/presentation/2/context.json",
+                    "@id": "http://localhost/test-manifest.json",
+                    "@type": "sc:Manifest",
+                    "label": "Test Manifest",
+                    "description": "Minimal manifest for integration testing",
+                    "sequences": [{
+                        "@type": "sc:Sequence",
+                        "canvases": [{
+                            "@id": "http://localhost/canvas/1",
+                            "@type": "sc:Canvas",
+                            "label": "Test Canvas",
+                            "height": 100,
+                            "width": 100,
+                            "images": [{
+                                "@type": "oa:Annotation",
+                                "motivation": "sc:painting",
+                                "resource": {
+                                    "@id": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+                                    "@type": "dctypes:Image",
+                                    "format": "image/png",
+                                    "height": 100,
+                                    "width": 100
+                                },
+                                "on": "http://localhost/canvas/1"
+                            }]
+                        }]
+                    }]
+                })
+            });
+        });
+
         // Load the test page
         const testHtmlPath = 'file://' + path.resolve(__dirname, 'test.html');
         console.log('Loading test page:', testHtmlPath);
@@ -55,8 +92,19 @@ async function runTest() {
         });
         console.log('✓ Test page loaded');
 
-        // Wait a bit for Mirador to initialize
-        await page.waitForTimeout(3000);
+        // Wait longer for Mirador to initialize and load the manifest
+        await page.waitForTimeout(5000);
+
+        // Debug: Check what's in the DOM
+        const domSnapshot = await page.evaluate(() => {
+            const container = document.getElementById('mirador');
+            return {
+                hasContainer: !!container,
+                childCount: container ? container.children.length : 0,
+                innerHTML: container ? container.innerHTML.substring(0, 500) : 'no container'
+            };
+        });
+        console.log('DOM snapshot:', domSnapshot);
 
         // Check if Mirador loaded successfully
         const miradorLoaded = await page.evaluate(() => {
@@ -82,12 +130,27 @@ async function runTest() {
             return container && container.children.length > 0;
         });
 
+        // Check if Mirador actually loaded the manifest by looking for canvas/window elements
+        const manifestLoaded = await page.evaluate(() => {
+            const container = document.getElementById('mirador');
+            // Look for Mirador's window component which indicates manifest was processed
+            // Mirador uses MUI classes, so check for various possible indicators
+            const hasWindow = container && (
+                container.querySelector('[class*="Window"]') ||
+                container.querySelector('[class*="window"]') ||
+                container.querySelector('[class*="MuiPaper"]') ||
+                container.querySelector('div[role="region"]')
+            );
+            return !!hasWindow;
+        });
+
         // Display results
         console.log('\n=== Test Results ===');
         console.log('Mirador defined on window:', miradorDefined ? '✓' : '✗');
         console.log('Mirador instance created:', miradorInstanceExists ? '✓' : '✗');
         console.log('Mirador loaded successfully:', miradorLoaded ? '✓' : '✗');
         console.log('Mirador container populated:', miradorContainerHasContent ? '✓' : '✗');
+        console.log('IIIF manifest loaded in viewer:', manifestLoaded ? '✓' : '✗');
 
         if (pageErrors.length > 0) {
             console.log('\n⚠️  Page Errors:');
@@ -106,7 +169,7 @@ async function runTest() {
 
         // Determine test success
         const hasErrors = pageErrors.length > 0 || capturedErrors.length > 0;
-        const testPassed = miradorDefined && miradorLoaded && miradorContainerHasContent && !hasErrors;
+        const testPassed = miradorDefined && miradorLoaded && miradorContainerHasContent && manifestLoaded && !hasErrors;
 
         if (testPassed) {
             console.log('\n✅ All tests passed! Mirador loaded successfully.');

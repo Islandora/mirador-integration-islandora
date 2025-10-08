@@ -34,42 +34,11 @@
         };
 
         try {
-            // Minimal test manifest with data URI image (no external network requests)
-            const manifestId = 'data:application/json,' + encodeURIComponent(JSON.stringify({
-                "@context": "http://iiif.io/api/presentation/2/context.json",
-                "@id": "urn:test-manifest",
-                "@type": "sc:Manifest",
-                "label": "Test Manifest",
-                "description": "Minimal manifest for integration testing",
-                "sequences": [{
-                    "@type": "sc:Sequence",
-                    "canvases": [{
-                        "@id": "urn:test-canvas-1",
-                        "@type": "sc:Canvas",
-                        "label": "Test Canvas",
-                        "height": 100,
-                        "width": 100,
-                        "images": [{
-                            "@type": "oa:Annotation",
-                            "motivation": "sc:painting",
-                            "resource": {
-                                "@id": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
-                                "@type": "dctypes:Image",
-                                "format": "image/png",
-                                "height": 100,
-                                "width": 100
-                            },
-                            "on": "urn:test-canvas-1"
-                        }]
-                    }]
-                }]
-            }));
-
-            // Initialize Mirador with embedded test manifest as data URI
+            // Initialize Mirador with test manifest URL (will be intercepted by Playwright)
             const config = {
                 id: 'mirador',
                 windows: [{
-                    manifestId: manifestId,
+                    manifestId: 'http://localhost/test-manifest.json',
                 }],
                 plugins: window.miradorPlugins || []
             };
