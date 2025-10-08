@@ -1,0 +1,44 @@
+{
+  branchPrefix: 'renovate.',
+  extends: [
+    'config:best-practices',
+    ':rebaseStalePrs',
+    'customManagers:dockerfileVersions',
+  ],
+  packageRules: [
+    {
+      matchUpdateTypes: [
+        'major',
+      ],
+      groupName: null,
+      matchPackageNames: [
+        '*',
+      ],
+      prConcurrentLimit: 1,
+    },
+    {
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
+      groupName: 'bump-dependencies',
+      schedule: [
+        '* 12 * * 3',
+      ],
+    },
+  ],
+  labels: [
+    'dependencies',
+  ],
+  postUpdateOptions: [
+    'composerWithAll',
+    'gomodTidy',
+  ],
+  osvVulnerabilityAlerts: true,
+  dependencyDashboardOSVVulnerabilitySummary: 'unresolved',
+  vulnerabilityAlerts: {
+    enabled: true
+  },
+}
+
