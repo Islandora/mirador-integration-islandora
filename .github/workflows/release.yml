@@ -58,10 +58,13 @@ jobs:
 
       - name: Bump git tag and create GitHub Release
         run: |-
+          mv ./webpack/dist/main.js .
+          git add main.js
+          git commit -m "Adding main.js"
+          git push origin main
           TAG=$(autotag)
           git tag "$TAG" || echo continue
           git push origin "$TAG"
-          gh release create "$TAG" --title "$TAG" --generate-notes './webpack/dist/main.js#main.js'
+          gh release create "$TAG" --title "$TAG" --generate-notes './main.js#main.js'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
