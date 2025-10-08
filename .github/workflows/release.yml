@@ -56,12 +56,17 @@ jobs:
           SHA256: 7b34c34316b8dd57b43ca0b08454ba57baf6472bef4e5ea46215b6ef5cd96146
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Bump git tag and create GitHub Release
+      - name: Commit build, bump git tag, and create GitHub Release
         run: |-
+          git config --global user.name 'islandora-community'
+          git config --global user.email 'islandora-community@users.noreply.github.com'
+          mv ./webpack/dist/main.js .
+          git add main.js
+          git commit -m "Adding main.js"
+          git push origin main
           TAG=$(autotag)
           git tag "$TAG" || echo continue
           git push origin "$TAG"
-          gh release create "$TAG" --title "$TAG" --generate-notes './webpack/dist/main.js#main.js'
+          gh release create "$TAG" --title "$TAG" --generate-notes './main.js#main.js'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
