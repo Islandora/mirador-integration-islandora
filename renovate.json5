@@ -1,0 +1,39 @@
+{
+  branchPrefix: 'renovate.',
+  extends: [
+    'config:best-practices',
+    ':rebaseStalePrs',
+  ],
+  packageRules: [
+    {
+      matchUpdateTypes: [
+        'major',
+      ],
+      groupName: null,
+      matchPackageNames: [
+        '*',
+      ],
+      prConcurrentLimit: 1,
+    },
+    {
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+      ],
+      groupName: 'bump-dependencies',
+      schedule: [
+        '* 12 * * 3',
+      ],
+    },
+  ],
+  labels: [
+    'dependencies',
+  ],
+  osvVulnerabilityAlerts: true,
+  dependencyDashboardOSVVulnerabilitySummary: 'unresolved',
+  vulnerabilityAlerts: {
+    enabled: true
+  },
+}
+
