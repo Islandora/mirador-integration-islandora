@@ -3,7 +3,6 @@
   extends: [
     'config:best-practices',
     ':rebaseStalePrs',
-    'customManagers:dockerfileVersions',
   ],
   packageRules: [
     {
@@ -30,10 +29,6 @@
   ],
   labels: [
     'dependencies',
-  ],
-  postUpdateOptions: [
-    'composerWithAll',
-    'gomodTidy',
   ],
   osvVulnerabilityAlerts: true,
   dependencyDashboardOSVVulnerabilitySummary: 'unresolved',
