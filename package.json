@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "webpack": "webpack --config webpack/webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run webpack && npx playwright install --with-deps chromium && node test/integration.test.js",
+    "test:only": "node test/integration.test.js"
   },
   "author": "",
   "license": "Apache-2.0",
@@ -24,5 +25,8 @@
     "url": "^0.11.4",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.1"
   }
 }
