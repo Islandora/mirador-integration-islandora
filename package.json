@@ -11,7 +11,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@blueprintjs/core": "^5.19.0",
+    "@blueprintjs/core": "^6.0.0",
     "@blueprintjs/icons": "^5.22.0",
     "css-loader": "^3.6.0",
     "mirador": "^3.4.3",
@@ -20,7 +20,7 @@
     "mirador-image-tools": "^0.11.0",
     "mirador-textoverlay": "^0.3.7",
     "react": "^19.0.0",
-    "react-dom": "^16.13.1",
+    "react-dom": "^19.0.0",
     "style-loader": "^1.2.1",
     "url": "^0.11.4",
     "webpack": "^5.88.1",
