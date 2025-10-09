@@ -20,7 +20,7 @@
     "mirador-image-tools": "^0.11.0",
     "mirador-textoverlay": "^0.3.7",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^19.0.0",
     "style-loader": "^1.2.1",
     "url": "^0.11.4",
     "webpack": "^5.88.1",
