@@ -10,7 +10,7 @@ async function runTest() {
         console.log('Starting Mirador integration test...');
 
         // Check if main.js exists
-        const mainJsPath = path.resolve(__dirname, '../webpack/dist/main.js');
+        const mainJsPath = path.resolve(__dirname, '../dist/main.js');
         if (!fs.existsSync(mainJsPath)) {
             console.error('❌ Error: main.js not found at', mainJsPath);
             console.error('Please run "npm run webpack" to build main.js first');
