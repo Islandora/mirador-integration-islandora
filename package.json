@@ -4,10 +4,11 @@
   "description": "Allow Drupal to display the Mirador image viewer",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "npm run preview && npx playwright install --with-deps chromium && node test/integration.test.js",
+    "prepreview": "npm run build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "npm run build && npx playwright install --with-deps chromium && node test/integration.test.js",
     "test:only": "node test/integration.test.js"
   },
   "author": "",
@@ -19,11 +20,10 @@
     "@mui/system": "^7.0.0",
     "@vitejs/plugin-react": "^6.0.1",
     "mirador": "^4.0.0",
-    "mirador-annotation-editor": "1.2.18",
     "mirador-dl-plugin": "^1.0.0",
     "mirador-image-tools": "^1.0.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-i18next": "^15.0.0",
     "vite": "^8.0.10"
   },

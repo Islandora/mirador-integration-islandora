@@ -1,53 +1,29 @@
-import { defineConfig } from 'vite'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
-  root: '.',
-
+  base: './',
+  plugins: [react()],
   build: {
-    // Matches: output.path
     outDir: 'dist',
     emptyOutDir: true,
-
-    // Prevent absolute /assets paths (important for Drupal)
-    base: '',
-
+    lib: {
+      entry: path.resolve(__dirname, 'src/index.js'),
+      name: 'MiradorIntegration',
+      formats: ['iife'],
+      fileName: () => 'main.js',
+    },
+    minify: 'esbuild',
+    target: 'es2018',
+    cssCodeSplit: false,
     rollupOptions: {
-      // Matches: entry: './src/index.js'
-      input: path.resolve(__dirname, 'src/index.js'),
-
       output: {
-        // Matches: filename: 'main.js'
-        entryFileNames: 'main.js',
-
-        // Equivalent to LimitChunkCountPlugin({ maxChunks: 1 })
-        manualChunks: () => 'main',
-
-        // Keep filenames predictable
-        chunkFileNames: 'main.js',
-        assetFileNames: '[name].[ext]',
-        format: 'es',
+        inlineDynamicImports: true,
       },
     },
-
-    // Matches: mode: 'production'
-    minify: 'esbuild',
-
-    // Ensure compatibility in Drupal environments
-    target: 'es2018',
-
-    // Extra safety: avoid CSS splitting into multiple files
-    cssCodeSplit: false,
   },
-
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-  },
-
   define: {
-    // Webpack used to polyfill this automatically
     'process.env': {},
   },
-})
+});
