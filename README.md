@@ -10,27 +10,32 @@ The main differences are
 
 ## Integrating Mirador
 
-This repository is designed to show integrating Mirador 3 with modern frontend build systems.
+This repository is designed to show integrating Mirador 4 with modern frontend build systems.
 
 ### Dependencies
 
 The dependencies are listed in package.json.
 
-TO install them, run:
+To install them, run:
 
 ```sh
 npm install
-``````
-### Webpack
-
-Webpack is used to build the app for use by Islandora
-
-See `./webpack` for a basic webpack setup for Mirador 3 + a plugin.
-
-```sh
-npm run webpack
 ```
 
-The output folder webpack/dist should now contain a file main.js which you can place in your drupal installation under [webroot]/libraries/mirador/dist.
+### Vite
+
+Vite is used to build the app for use by Islandora.
+
+```sh
+npm run build
+```
+
+The output folder `dist` should now contain `main.js`, which you can place in your Drupal installation under `[webroot]/libraries/mirador/dist`.
 
 You can then go to /admin/config/media/mirador and set it to use the local version after clearing your site's cache.
+
+The release workflow also copies `dist/main.js` to the repository root as `main.js`, commits it to `main`, and attaches that file to the GitHub Release so it can be loaded directly from a GitHub-backed CDN.
+
+### Mirador 4 plugin notes
+
+`mirador-textoverlay` is intentionally not included in this build yet. The published package currently targets Mirador 3 and React 16; add it back after the Mirador 4-compatible release from the `mirador4` branch is available.

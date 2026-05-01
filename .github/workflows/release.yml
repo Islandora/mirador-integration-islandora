@@ -40,7 +40,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run webpack
+        run: npm run build
 
       - name: install autotag binary
         run: |
@@ -60,7 +60,7 @@ jobs:
         run: |-
           git config --global user.name 'islandora-community'
           git config --global user.email 'islandora-community@users.noreply.github.com'
-          mv ./webpack/dist/main.js .
+          cp ./dist/main.js ./main.js
           git add main.js
           git commit -m "Adding main.js"
           git push origin main
