@@ -19,7 +19,7 @@ The dependencies are listed in package.json.
 To install them, run:
 
 ```sh
-npm install
+npm ci
 ```
 
 ### Vite
@@ -35,6 +35,21 @@ The output folder `dist` should now contain `main.js`, which you can place in yo
 You can then go to /admin/config/media/mirador and set it to use the local version after clearing your site's cache.
 
 The release workflow also copies `dist/main.js` to the repository root as `main.js`, commits it to `main`, and attaches that file to the GitHub Release so it can be loaded directly from a GitHub-backed CDN.
+
+### Testing the bundle
+
+To test the generated JavaScript locally:
+
+```sh
+npm ci
+npm run build
+npx playwright install --with-deps chromium
+npm run test:only
+```
+
+The integration test loads `test/test.html`, imports `dist/main.js`, and initializes Mirador with `window.miradorPlugins`.
+
+For branch builds, the `Integration Test` workflow uploads the generated bundle as a `mirador-main-js` artifact. Open the workflow run in GitHub Actions, download the artifact, unzip it, and use the included `main.js` in Drupal the same way you would use `dist/main.js` from a local build.
 
 ### Bundled plugins
 
