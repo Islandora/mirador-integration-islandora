@@ -37,14 +37,16 @@
             // Initialize Mirador with test manifest URL (will be intercepted by Playwright)
             const config = {
                 id: 'mirador',
+                miradorDownloadPlugin: {
+                    restrictDownloadOnSizeDefinition: true,
+                },
                 windows: [{
                     manifestId: 'http://localhost/test-manifest.json',
                 }],
-                plugins: window.miradorPlugins || []
             };
 
             if (typeof window.Mirador !== 'undefined') {
-                const viewer = window.Mirador.viewer(config);
+                const viewer = window.Mirador.viewer(config, window.miradorPlugins || []);
                 window.miradorLoadedSuccessfully = true;
                 window.miradorInstance = viewer;
             } else {

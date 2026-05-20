@@ -22,6 +22,7 @@
     "mirador": "^4.0.0",
     "mirador-dl-plugin": "^1.0.0",
     "mirador-image-tools": "^1.0.0",
+    "mirador-textoverlay": "^1.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-i18next": "^15.0.0",

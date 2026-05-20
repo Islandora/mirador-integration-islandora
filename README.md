@@ -36,6 +36,25 @@ You can then go to /admin/config/media/mirador and set it to use the local versi
 
 The release workflow also copies `dist/main.js` to the repository root as `main.js`, commits it to `main`, and attaches that file to the GitHub Release so it can be loaded directly from a GitHub-backed CDN.
 
+### Bundled plugins
+
+The build exposes `window.miradorPlugins` for the Drupal module to pass as the second argument to `Mirador.viewer(config, window.miradorPlugins)`. This bundle currently includes:
+
+- `mirador-image-tools`
+- `mirador-dl-plugin`
+- `mirador-textoverlay`
+
+`mirador-dl-plugin` can be configured through the Mirador config object:
+
+```js
+Mirador.viewer({
+  id: 'mirador',
+  miradorDownloadPlugin: {
+    restrictDownloadOnSizeDefinition: true,
+  },
+}, window.miradorPlugins);
+```
+
 ### Updating Islandora after a release
 
 After publishing a new release here, update the `mirador` library entry in the Islandora Mirador module:
@@ -63,4 +82,4 @@ mirador:
 
 ### Mirador 4 plugin notes
 
-`mirador-textoverlay` is intentionally not included in this build yet. The published package currently targets Mirador 3 and React 16; add it back after the Mirador 4-compatible release from the `mirador4` branch is available.
+`mirador-textoverlay` is included through the published 1.x package, which supports Mirador 4 and React 18/19.
