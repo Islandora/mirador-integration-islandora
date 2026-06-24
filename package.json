@@ -19,7 +19,7 @@
     "@mui/material": "^7.0.0",
     "@mui/system": "^7.0.0",
     "@vitejs/plugin-react": "^6.0.1",
-    "mirador": "^4.0.0",
+    "mirador": "^4.1.0",
     "mirador-dl-plugin": "^1.0.0",
     "mirador-image-tools": "^1.0.0",
     "mirador-textoverlay": "^1.0.0",
