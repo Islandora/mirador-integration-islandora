@@ -1,18 +1,13 @@
-import Mirador from 'mirador/dist/es/src/index';
-import MiradorDownload from 'mirador-dl-plugin';
-import MiradorDownloadDialogPlugin from 'mirador-dl-plugin';
-
-
+import './process-shim';
+import Mirador from 'mirador';
 import { miradorImageToolsPlugin } from 'mirador-image-tools';
-import textOverlayPlugin from 'mirador-textoverlay/es';
+import miradorDownloadPlugins from 'mirador-dl-plugin';
+import textOverlayPlugin from 'mirador-textoverlay';
 
 window.Mirador = Mirador;
 
 window.miradorPlugins = [
   ...miradorImageToolsPlugin,
   ...textOverlayPlugin,
-  MiradorDownload.miradorDownloadPlugin,
-  MiradorDownload.MiradorDownloadDialogPlugin,
-
+  ...miradorDownloadPlugins,
 ];
-

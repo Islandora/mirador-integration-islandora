@@ -2,6 +2,10 @@ const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
+function isIgnoredConsoleError(message) {
+    return message.includes('Accessing element.ref was removed in React 19');
+}
+
 async function runTest() {
     let browser;
     let exitCode = 0;
@@ -10,10 +14,10 @@ async function runTest() {
         console.log('Starting Mirador integration test...');
 
         // Check if main.js exists
-        const mainJsPath = path.resolve(__dirname, '../webpack/dist/main.js');
+        const mainJsPath = path.resolve(__dirname, '../dist/main.js');
         if (!fs.existsSync(mainJsPath)) {
             console.error('❌ Error: main.js not found at', mainJsPath);
-            console.error('Please run "npm run webpack" to build main.js first');
+            console.error('Please run "npm run build" to build main.js first');
             process.exit(1);
         }
         console.log('✓ Found main.js at', mainJsPath);
@@ -34,7 +38,7 @@ async function runTest() {
         page.on('console', msg => {
             const text = msg.text();
             consoleMessages.push(text);
-            if (msg.type() === 'error') {
+            if (msg.type() === 'error' && !isIgnoredConsoleError(text)) {
                 consoleErrors.push(text);
             }
         });
@@ -120,9 +124,9 @@ async function runTest() {
         });
 
         // Get captured console errors from the page
-        const capturedErrors = await page.evaluate(() => {
+        const capturedErrors = (await page.evaluate(() => {
             return window.consoleErrors || [];
-        });
+        })).filter(error => !isIgnoredConsoleError(error));
 
         // Check if Mirador container has content
         const miradorContainerHasContent = await page.evaluate(() => {
