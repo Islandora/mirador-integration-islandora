@@ -17,7 +17,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^7.0.0",
-    "@mui/system": "^7.0.0",
+    "@mui/system": "^9.0.0",
     "@vitejs/plugin-react": "^6.0.1",
     "mirador": "^4.1.0",
     "mirador-dl-plugin": "^1.0.0",
