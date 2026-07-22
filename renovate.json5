@@ -26,6 +26,13 @@
         '* 12 * * 3',
       ],
     },
+    {
+      matchDepTypes: [
+        'action',
+      ],
+      groupName: 'github-actions',
+      commitMessagePrefix: '[skip-release] ',
+    },
   ],
   labels: [
     'dependencies',
@@ -36,4 +43,3 @@
     enabled: true
   },
 }
-
