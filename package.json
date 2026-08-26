@@ -1,6 +1,6 @@
 {
   "name": "mirador-integration-drupal",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Allow Drupal to display the Mirador image viewer",
   "private": true,
   "scripts": {
