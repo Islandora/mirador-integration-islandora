@@ -1,6 +1,6 @@
 {
   "name": "mirador-integration-drupal",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Allow Drupal to display the Mirador image viewer",
   "private": true,
   "scripts": {
@@ -19,7 +19,7 @@
     "@mui/material": "^7.0.0",
     "@mui/system": "^7.0.0",
     "@vitejs/plugin-react": "^6.0.1",
-    "mirador": "^4.1.0",
+    "mirador": "^4.2.6",
     "mirador-dl-plugin": "^1.0.0",
     "mirador-image-tools": "^1.0.0",
     "mirador-textoverlay": "^1.0.0",
